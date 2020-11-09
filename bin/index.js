@@ -20,7 +20,14 @@ const script = async () => {
 
   const newVersion = await incrementTag(tag || "0.0.0");
   if (newVersion) {
-    const prefix = options.prefix ? options.prefix + "/" : "";
+    let prefix = "";
+    if(options.prefix && options.noslash){
+      prefix = options.prefix;
+    }
+    else if(options.prefix){
+      prefix = options.prefix + "/";
+    } 
+    
     shell.exec(
       `git tag -a ${prefix}${newVersion} ${
         options.branch ? options.branch : ""
